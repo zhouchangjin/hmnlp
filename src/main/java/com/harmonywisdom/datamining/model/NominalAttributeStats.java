@@ -49,6 +49,10 @@ public class NominalAttributeStats {
 		}
 	}
 	
+	public double getValuePercentage(String valueName){
+		return getValueCnt(valueName)*1.0/totalCnt;
+	}
+	
 	public String toString(){
 		String result="";
 		if(attIndex==-1){

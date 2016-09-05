@@ -118,6 +118,10 @@ public class Instances {
 		return list.get(index);
 	}
 	
+	public AttributeStats getAttributesStats(int index){
+		return statsMap.get(index);
+	}
+	
 	public String showAttributesStatistics(){
 		String res="=========================================\n";
 		Iterator<Integer> it=statsMap.keySet().iterator();
