@@ -10,12 +10,15 @@ import com.harmonywisdom.datamining.model.Attributes;
 import com.harmonywisdom.datamining.model.DoubleAttributeStats;
 import com.harmonywisdom.datamining.model.Instance;
 import com.harmonywisdom.datamining.model.Instances;
+import com.harmonywisdom.math.probability.distribution.NormalDistribution;
 
 public class NaiveBayesClassifier implements Classifier{
 	
 	int trainClzIndex;
 	HashMap<String,AttributeStats> statsMap;
 	Instances trainInstance;
+	
+	
 
 	@Override
 	public void build(Instances instances) {
@@ -69,6 +72,45 @@ public class NaiveBayesClassifier implements Classifier{
 		}
 		return res;
 		
+	}
+
+	@Override
+	public ClassifyResult classifySingleInstance(Instance instance) {
+		// TODO Auto-generated method stub
+		ClassifyResult cr=new ClassifyResult();
+		String[] classvalues=trainInstance.getAttributes().getAttribute(trainClzIndex).getValues();
+		double probabilities[]=new double[classvalues.length];
+		for(int i=0;i<probabilities.length;i++){
+			probabilities[i]=1.0;
+		}
+		int count=instance.size();
+		for(int i=0;i<count;i++){
+			Attribute att=instance.sparseAttributeIndex(i);
+			if(att.getAttributeId()==this.trainClzIndex){
+				//System.out.println("ignore classIndex");
+			}else{
+				if(att.getType().equals(AttributeType.Nominal)){
+					
+				}else if(att.getType().equals(AttributeType.Numeric)){
+					double value=instance.sparseValue(i);
+					for(int ci=0;ci<classvalues.length;ci++){
+						String key=classvalues[ci]+"_"+att.getAttributeId();
+						AttributeStats attstats=this.statsMap.get(key);
+						double avg=attstats.getDoubleAttStats().getAvg();
+						double std=attstats.getDoubleAttStats().getStdDev();
+						double probability=NormalDistribution.probability(avg, std, value);
+						if(probability==0){
+							System.out.println(att.getAttributeName());
+						}
+						probabilities[ci]*=probability;
+					}
+				}
+			}
+		}
+		for(int i=0;i<classvalues.length;i++){
+			cr.setResult(classvalues[i], probabilities[i]);
+		}
+		return cr;
 	}
 
 }

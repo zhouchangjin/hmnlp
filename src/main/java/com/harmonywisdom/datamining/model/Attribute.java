@@ -56,6 +56,7 @@ public class Attribute {
 		int attributeId;
 		String attributeName;
 		AttributeType type;
+		String[] values;
 		public AttributeBuilder(String attributeName) {
 			this.attributeName=attributeName;
 		}
@@ -70,13 +71,24 @@ public class Attribute {
 			return this;
 		}
 		
+		public AttributeBuilder setValues(String[] values){
+			this.values=values;
+			return this;
+		}
+		
 		public Attribute build(){
 		  Attribute attribute= new Attribute();
 		  attribute.setAttributeId(attributeId);
 		  attribute.setAttributeName(attributeName);
 		  attribute.setType(type);
+		  attribute.setValues(values);
 		  return attribute;
 		}
+	}
+	
+	public String toString(){
+		String res=this.attributeName+"_"+this.attributeId;
+		return res;
 	}
 
 }

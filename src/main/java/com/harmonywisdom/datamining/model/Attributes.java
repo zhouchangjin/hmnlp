@@ -29,7 +29,7 @@ public class Attributes {
 	public void addAttribute(String name,AttributeType type,String... values){
 		if(!hasAttribute(name)){
 			int id=generateId();
-			Attribute att=new Attribute.AttributeBuilder(name).setId(id).setType(type).build();
+			Attribute att=new Attribute.AttributeBuilder(name).setId(id).setType(type).setValues(values).build();
 			indexMap.put(id, att);
 			invertedMap.put(name, id);
 			nameSet.add(name);
