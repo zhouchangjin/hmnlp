@@ -44,7 +44,7 @@ public class ArffReaderExample {
 		//System.out.println(instances.showAttributesStatistics());
 		NaiveBayesClassifier classifier=new NaiveBayesClassifier();
 		classifier.build(instances);
-		System.out.println(classifier.outputModel());
+		//System.out.println(classifier.outputModel());
 		int cnt=0;
 		int cnt2=0;
 		for(int i=0;i<testinstances.size();i++){
@@ -56,12 +56,12 @@ public class ArffReaderExample {
 			}else	if(cr.toString().startsWith("F")){
 				cnt++;
 			}else{
-				System.out.println(cr.toString());
+				//System.out.println(title.get(i));
 			}
 		}
 		System.out.println(cnt+"_"+cnt2);
 		System.out.println(testinstances.size());
-		double result=cnt*1.0/testinstances.size();
+		double result=(testinstances.size()-cnt2)*1.0/testinstances.size();
 		System.out.println(result);
 	}
 
