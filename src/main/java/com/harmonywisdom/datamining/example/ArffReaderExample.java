@@ -17,7 +17,7 @@ public class ArffReaderExample {
 		
 		 ArrayList<String> title=new ArrayList<String>();
 		  ArrayList<String> flag=new ArrayList<String>();
-		  File f=new File("d:/nlphome/trainning/dataset_test_0831_2.txt");
+		  File f=new File("d:/nlphome/test/fp.txt");
 		  try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			
@@ -33,9 +33,9 @@ public class ArffReaderExample {
 		
 		// TODO Auto-generated method stub
 		ArffReader reader=new ArffReader();
-		reader.setPath("d:/nlphome/trainning/training_0902.arff");
+		reader.setPath("d:/nlphome/trainning/training_0905.arff");
 		ArffReader reader2=new ArffReader();
-		reader2.setPath("d:/nlphome/trainning/test_0903_test3.arff");
+		reader2.setPath("d:/nlphome/test/fp.arff");
 		Instances instances=reader.loadInstance();
 		instances.setClassIndex(1);
 		
@@ -45,24 +45,45 @@ public class ArffReaderExample {
 		NaiveBayesClassifier classifier=new NaiveBayesClassifier();
 		classifier.build(instances);
 		//System.out.println(classifier.outputModel());
-		int cnt=0;
-		int cnt2=0;
+		int pos=0;
+		int negative=0;
+		int known=0;
+		int tp=0;
+		int fp=0;
+		int tn=0;
+		int fn=0;
 		for(int i=0;i<testinstances.size();i++){
 			Instance instance=testinstances.get(i);
 			ClassifyResult cr=classifier.classifySingleInstance(instance);
-			if(cr.toString().startsWith("T")){
-				System.out.println(cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
-				cnt2++;
-			}else	if(cr.toString().startsWith("F")){
-				cnt++;
+			if(flag.get(i).equals("1")){
+				pos++;
+				if(cr.toString().startsWith("T")){
+					
+					tp++;
+					
+				}else if(cr.toString().startsWith("F")){
+					System.out.println(i+"_"+cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
+					fp++;
+				}else{
+					fp++;
+					//System.out.println(title.get(i));
+				}
 			}else{
-				//System.out.println(title.get(i));
+				negative++;
+				if(cr.toString().startsWith("T")){
+					fn++;
+					//System.out.println(cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
+				}else if(cr.toString().startsWith("F")){
+					tn++;
+				}else{
+					fn++;
+				}
 			}
+			
 		}
-		System.out.println(cnt+"_"+cnt2);
-		System.out.println(testinstances.size());
-		double result=(testinstances.size()-cnt2)*1.0/testinstances.size();
-		System.out.println(result);
+		System.out.println("总相关新闻数"+pos);
+		System.out.println("相关召回率"+tp*1.0/pos);
+		System.out.println("不相关召回率"+tn*1.0/negative);
 	}
 
 }
