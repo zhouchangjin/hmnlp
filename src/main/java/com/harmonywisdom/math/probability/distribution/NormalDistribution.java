@@ -11,6 +11,8 @@ public class NormalDistribution {
 		return result;
 	}
 	
+
+	
 	public static void main(String args[]){
 		System.out.println(probability(0,1,2));
 	}
