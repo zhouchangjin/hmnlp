@@ -76,6 +76,7 @@ public class ArffReaderExample {
 				}else if(cr.toString().startsWith("F")){
 					tn++;
 				}else{
+					System.out.println(title.get(i));
 					fn++;
 				}
 			}
