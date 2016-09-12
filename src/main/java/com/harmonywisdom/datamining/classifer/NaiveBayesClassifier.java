@@ -104,8 +104,13 @@ public class NaiveBayesClassifier implements Classifier{
 						AttributeStats attstats=this.statsMap.get(key);
 						double avg=attstats.getDoubleAttStats().getAvg();
 						double std=attstats.getDoubleAttStats().getStdDev();
-						double probability=NormalDistribution.probability(avg, std, value);
-						double temp=Math.max(probability, 10e-75);
+						//使用概率密度 （PDF）
+						//double probability=NormalDistribution.probability(avg, std, value);
+						//使用概率积分函数  （CDF）
+						double upper=NormalDistribution.StanddardCDFFunction(value+0.01-avg/std);
+						double lower=NormalDistribution.StanddardCDFFunction(value-0.01-avg/std);
+						
+						double temp=Math.max(upper-lower, 10e-75);
 						probabilities[ci]*=temp;
 						
 					}
