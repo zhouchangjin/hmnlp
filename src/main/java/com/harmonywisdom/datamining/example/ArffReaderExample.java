@@ -17,7 +17,7 @@ public class ArffReaderExample {
 		
 		 ArrayList<String> title=new ArrayList<String>();
 		  ArrayList<String> flag=new ArrayList<String>();
-		  File f=new File("d:/nlphome/test/fp.txt");
+		  File f=new File("d:/nlphome/test/dataset_test_modified_0905.txt");
 		  try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			
@@ -33,9 +33,9 @@ public class ArffReaderExample {
 		
 		// TODO Auto-generated method stub
 		ArffReader reader=new ArffReader();
-		reader.setPath("d:/nlphome/trainning/training_0905.arff");
+		reader.setPath("d:/nlphome/trainning/training_0908.arff");
 		ArffReader reader2=new ArffReader();
-		reader2.setPath("d:/nlphome/test/fp.arff");
+		reader2.setPath("d:/nlphome/test/test_0908.arff");
 		Instances instances=reader.loadInstance();
 		instances.setClassIndex(1);
 		
@@ -62,11 +62,11 @@ public class ArffReaderExample {
 					tp++;
 					
 				}else if(cr.toString().startsWith("F")){
-					System.out.println(i+"_"+cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
+					//System.out.println(i+"_"+cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
 					fp++;
 				}else{
 					fp++;
-					//System.out.println(title.get(i));
+					System.out.println(title.get(i));
 				}
 			}else{
 				negative++;
