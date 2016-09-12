@@ -87,6 +87,7 @@ public class NaiveBayesClassifier implements Classifier{
 		for(int i=0;i<probabilities.length;i++){
 			probabilities[i]=1.0;
 		}
+		
 		int count=instance.size();
 		for(int i=0;i<count;i++){
 			Attribute att=instance.sparseAttributeIndex(i);
@@ -96,6 +97,7 @@ public class NaiveBayesClassifier implements Classifier{
 				if(att.getType().equals(AttributeType.Nominal)){
 					
 				}else if(att.getType().equals(AttributeType.Numeric)){
+					double max=0;
 					double value=instance.sparseValue(i);
 					for(int ci=0;ci<classvalues.length;ci++){
 						String key=classvalues[ci]+"_"+att.getAttributeId();
@@ -103,14 +105,26 @@ public class NaiveBayesClassifier implements Classifier{
 						double avg=attstats.getDoubleAttStats().getAvg();
 						double std=attstats.getDoubleAttStats().getStdDev();
 						double probability=NormalDistribution.probability(avg, std, value);
-						probabilities[ci]*=probability;
+						double temp=Math.max(probability, 10e-75);
+						probabilities[ci]*=temp;
+						
+					}
+					for(int ci=0;ci<classvalues.length;ci++){
+						if(probabilities[ci]>max){
+							max=probabilities[ci];
+						}
+					}
+					if(max>0 && max<10e-75){
+						for(int ci=0;ci<classvalues.length;ci++){
+							probabilities[ci]*=1/max;
+						}
 					}
 				}
 			}
 		}
 		for(int i=0;i<classvalues.length;i++){
-			cr.setResult(classvalues[i], probabilities[i]);
-			
+			double percentage=noAttstats.getValuePercentage(classvalues[i]);
+			cr.setResult(classvalues[i], probabilities[i]*percentage);
 		}
 		return cr;
 	}
