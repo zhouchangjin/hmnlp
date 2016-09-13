@@ -33,9 +33,9 @@ public class ArffReaderExample {
 		
 		// TODO Auto-generated method stub
 		ArffReader reader=new ArffReader();
-		reader.setPath("d:/nlphome/trainning/training_0908.arff");
+		reader.setPath("d:/nlphome/trainning/training_0912.arff");
 		ArffReader reader2=new ArffReader();
-		reader2.setPath("d:/nlphome/test/test_0908.arff");
+		reader2.setPath("d:/nlphome/test/test_0912_test.arff");
 		Instances instances=reader.loadInstance();
 		instances.setClassIndex(1);
 		
@@ -66,17 +66,17 @@ public class ArffReaderExample {
 					fp++;
 				}else{
 					fp++;
-					System.out.println(title.get(i));
+					//System.out.println(title.get(i));
 				}
 			}else{
 				negative++;
 				if(cr.toString().startsWith("T")){
 					fn++;
-					//System.out.println(cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
+					System.out.println(cr.toString()+"_"+title.get(i)+"_"+flag.get(i));
 				}else if(cr.toString().startsWith("F")){
 					tn++;
 				}else{
-					System.out.println(title.get(i));
+					//System.out.println(title.get(i));
 					fn++;
 				}
 			}
