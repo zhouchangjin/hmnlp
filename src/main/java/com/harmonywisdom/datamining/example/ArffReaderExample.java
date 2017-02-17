@@ -17,7 +17,7 @@ public class ArffReaderExample {
 		
 		 ArrayList<String> title=new ArrayList<String>();
 		  ArrayList<String> flag=new ArrayList<String>();
-		  File f=new File("d:/nlphome/test/dataset_test_modified_0905.txt");
+		  File f=new File("d:/nlphome/test/dataset_test_modified_0913.txt");
 		  try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			
@@ -33,9 +33,9 @@ public class ArffReaderExample {
 		
 		// TODO Auto-generated method stub
 		ArffReader reader=new ArffReader();
-		reader.setPath("d:/nlphome/trainning/training_0912.arff");
+		reader.setPath("d:/nlphome/trainning/training_0914.arff");
 		ArffReader reader2=new ArffReader();
-		reader2.setPath("d:/nlphome/test/test_0912_test.arff");
+		reader2.setPath("d:/nlphome/test/test_0914.arff");
 		Instances instances=reader.loadInstance();
 		instances.setClassIndex(1);
 		
