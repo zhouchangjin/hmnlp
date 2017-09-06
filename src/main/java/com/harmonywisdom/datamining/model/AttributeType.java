@@ -2,7 +2,7 @@ package com.harmonywisdom.datamining.model;
 
 public enum AttributeType {
 
-	Nominal("名义型",1),Binary("标称型",2),Ordinal("序数型",3),Numeric("数值型",4),Ratio("比例型",5),String("字符",6),Date("日期",7);
+	Nominal("Nominal",1),Binary("Binary",2),Ordinal("Ordinal",3),Numeric("Numeric",4),Ratio("Ratio",5),String("String",6),Date("Date",7);
 	
 	String name;
 	int value;
