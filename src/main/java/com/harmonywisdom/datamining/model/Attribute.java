@@ -1,7 +1,5 @@
 package com.harmonywisdom.datamining.model;
 
-import java.util.List;
-
 public class Attribute {
 	
 	int attributeId;

@@ -1,7 +1,5 @@
 package com.harmonywisdom.datamining.model;
 
-import java.util.Iterator;
-
 public interface Instance {
 	
 	public Attribute attribute(int index);
