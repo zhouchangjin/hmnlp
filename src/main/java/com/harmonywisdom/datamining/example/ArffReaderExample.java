@@ -27,6 +27,7 @@ public class ArffReaderExample {
 	    		title.add(pair[1]);
 	    		flag.add(pair[0]);
 	    	}
+	    	br.close();
 		  }catch(Exception e){
 			  
 		  }
