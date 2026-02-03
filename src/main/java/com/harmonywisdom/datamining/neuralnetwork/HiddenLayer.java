@@ -7,6 +7,11 @@ public class HiddenLayer implements NeuronNetworkLayer{
 	
 	List<Neuron> hiddenNeurons;
 	
+	double activateResult[];
+	
+	int layerSeq;
+	
+	
 	public HiddenLayer() {
 		hiddenNeurons=new ArrayList<>();
 	}
@@ -20,7 +25,8 @@ public class HiddenLayer implements NeuronNetworkLayer{
 			double vi=n.forward(inputValues);
 			out[i]=vi;
 		}
-		return out;
+		activateResult=out;
+		return activateResult;
 	}
 
 	@Override
@@ -59,6 +65,43 @@ public class HiddenLayer implements NeuronNetworkLayer{
 	public Neuron getNeuron(int position) {
 		// TODO Auto-generated method stub
 		return hiddenNeurons.get(position);
+	}
+
+	@Override
+	public int getNeuronCnt() {
+		// TODO Auto-generated method stub
+		return hiddenNeurons.size();
+	}
+
+	@Override
+	public void setLayerSeq(int layerSeq) {
+		// TODO Auto-generated method stub
+		this.layerSeq=layerSeq;
+	}
+
+	@Override
+	public int getLayerSeq() {
+		// TODO Auto-generated method stub
+		return layerSeq;
+	}
+
+	@Override
+	public void initLayerWithWeights(int nCnt, double[][] weights, double[] bias) {
+		
+		int size=weights.length;
+		if(size!=nCnt) {
+			System.out.println("入参数量错误");
+		}
+		for(int i=0;i<nCnt;i++) {
+			double weightsi[]=weights[i];
+			double biasi=bias[i];
+			Neuron n=new Neuron();
+			n.setWeights(weightsi);
+			n.setBias(biasi);
+			hiddenNeurons.add(n);
+		}
+		
+		
 	}
 	
 
