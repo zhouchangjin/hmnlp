@@ -66,7 +66,7 @@ public class NeuronNetwork {
 		for(NeuronNetworkLayer layer:hiddenLayers) {
 			int c=layer.getNeuronCnt();
 			for(int i=0;i<c;i++) {
-				Neuron n=layer.getNeuron(i);
+				INeuron n=layer.getNeuron(i);
 				n.update(miniBatchSize, learningRate);
 			}
 		}
@@ -97,7 +97,7 @@ public class NeuronNetwork {
 			System.out.println("结果数辆和最后一层神经元数量不一致");
 		}
 		for(int i=0;i<size;i++) {
-			Neuron n=layer.getNeuron(i);
+			INeuron n=layer.getNeuron(i);
 			n.backward(outputvalues[i]);
 		}
 		NeuronNetworkLayer previousLayer=layer;
@@ -110,10 +110,10 @@ public class NeuronNetwork {
 			//System.out.println(previousSeq+"[--]"+curSeq);
 			
 			for(int i=0;i<sizeCur;i++) {
-				Neuron n=currentLayer.getNeuron(i);
+				INeuron n=currentLayer.getNeuron(i);
 				double sumInput=0;
 				for(int j=0;j<previousLayer.getNeuronCnt();j++) {
-					Neuron pn=previousLayer.getNeuron(j);
+					INeuron pn=previousLayer.getNeuron(j);
 					double backwardinputArr[]=pn.getNeuronBackwardInput();
 					double backwardinput=backwardinputArr[i];
 					sumInput+=backwardinput;

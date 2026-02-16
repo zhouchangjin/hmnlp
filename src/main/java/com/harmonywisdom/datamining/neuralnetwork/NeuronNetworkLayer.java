@@ -12,13 +12,15 @@ public interface NeuronNetworkLayer {
 	
 	void initLayerWithSameWeights(int neuroCount,double weight[],double bias);
 	
-	void initLayerWithWeights(int nCnt,double[][] weight,double[] bias);
+	void initLayerWithWeights(int nCnt,double[][] weights,double[] bias);
+	
+	void initSimpleLayerWithWeights(int nCnt,double[][] weights,double[] bias);
 	
 	void setWeights(int neuronIndex,double weight[]);
 	
 	void setBias(int neuronIndex,double bias);
 	
-	Neuron getNeuron(int position);
+	INeuron getNeuron(int position);
 	
 	int getNeuronCnt();
 	

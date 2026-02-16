@@ -3,7 +3,7 @@ package com.harmonywisdom.datamining.neuralnetwork;
 
 import com.harmonywisdom.math.function.CommonFunction;
 
-public class Neuron {
+public class Neuron implements INeuron{
 	
 	double[] weights;
 	
@@ -27,9 +27,16 @@ public class Neuron {
 	double[] inputMem;
 	
 	double[] backwardValue;
+	
+	ActivationFunction activationFunction;
 
 	
 	public Neuron() {
+		activationFunction=new SigmodActivationFunction();
+	}
+	
+	public Neuron(ActivationFunction function) {
+		this.activationFunction=function;
 	}
 	
 
@@ -38,10 +45,12 @@ public class Neuron {
 		return weights[index];
 	}
 	
+	@Override
 	public double[] getNeuronBackwardInput() {
 		return backwardValue;
 	}
 	
+	@Override
 	public double[] backward(double backwardinput) {
 		
 		if(backwardValue==null) {
@@ -86,6 +95,7 @@ public class Neuron {
 		this.sumDBias=0;
 	}
 	
+	@Override
 	public void update(int batchSize,double learnRate) {
 		for(int i=0;i<weights.length;i++) {
 			double w=weights[i];
@@ -100,24 +110,25 @@ public class Neuron {
 		reset();
 	}
 
-	
+	@Override
 	public void setWeights(double weights[]) {
 		this.weights=weights;
 		this.dweights=new double[weights.length];
 		reset();
 	}
 	
+	@Override
 	public void setBias(double bias) {
 		this.bias=bias;
 	}
 	
-	
+	@Override
 	public double forward(double x[]) {
 		inputMem=x;
 		double t= CommonFunction.dot(x, weights)+bias;
-		double f=CommonFunction.sigmoid(t);
+		double f=activationFunction.activate(t);//CommonFunction.sigmoid(t);
 		value=f;
-		dz=f*(1-f);
+		dz=activationFunction.derivation();//f*(1-f);
 		return value;
 	}
 	
