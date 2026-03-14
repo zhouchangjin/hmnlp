@@ -21,7 +21,7 @@ public class CommonFunction {
 		double[] output=new double[inputValues.length];
 		for(int i=0;i<inputValues.length;i++) {
 			double num=inputValues[i];
-			double compo=Math.pow(Math.E,-num);
+			double compo=Math.pow(Math.E,num);
 			sum+=compo;
 			component[i]=compo;
 		}

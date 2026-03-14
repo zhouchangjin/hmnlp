@@ -2,6 +2,8 @@ package com.harmonywisdom.datamining.neuralnetwork;
 
 public interface INeuron {
 	
+	int getInputSize();
+	
 	double[] backward(double backwardinput);
 	
 	void setWeights(double weights[]);

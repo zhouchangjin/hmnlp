@@ -14,6 +14,8 @@ public class NeuronNetwork {
 	
 	
 	List<NeuronNetworkLayer> hiddenLayers;
+	
+	IOutputLayer outputLayer;
 
 	
 	public NeuronNetwork(){
@@ -59,7 +61,6 @@ public class NeuronNetwork {
 			for(int ei=0;ei<error.length;ei++) {
 				error[ei]=outputvalues[ei]-y[ei];
 			}
-			//double error[]=new double[] {outputvalues[0]-0.01,outputvalues[1]-0.99};
 			triggerBackward(error);
 		}
 		
@@ -72,6 +73,13 @@ public class NeuronNetwork {
 		}
 		
 	}
+	
+	public IOutputLayer getOutputLayer() {
+		if(outputLayer==null) {
+			outputLayer=new SimpleOutputLayer();
+		}
+		return outputLayer;
+	}
 
 	public double[] triggerInput(double input[]) {
 		
@@ -83,7 +91,6 @@ public class NeuronNetwork {
 			}
 			System.out.println();
 		}
-		
 		return currentInput;
 	}
 	
@@ -105,21 +112,7 @@ public class NeuronNetwork {
 		while(previousSeq>0) {
 			int curSeq=previousSeq-1;
 			NeuronNetworkLayer currentLayer=getLayer(curSeq);
-			int sizeCur=currentLayer.getNeuronCnt();
-
-			//System.out.println(previousSeq+"[--]"+curSeq);
-			
-			for(int i=0;i<sizeCur;i++) {
-				INeuron n=currentLayer.getNeuron(i);
-				double sumInput=0;
-				for(int j=0;j<previousLayer.getNeuronCnt();j++) {
-					INeuron pn=previousLayer.getNeuron(j);
-					double backwardinputArr[]=pn.getNeuronBackwardInput();
-					double backwardinput=backwardinputArr[i];
-					sumInput+=backwardinput;
-				}
-				n.backward(sumInput);	
-			}
+			currentLayer.backward(previousLayer);
 			previousSeq=curSeq;
 			previousLayer=currentLayer;
 		}
@@ -157,11 +150,17 @@ public class NeuronNetwork {
 		ann.addHiddenLayer(hiddenLayer);
 		ann.addHiddenLayer(output);
 		
+		IOutputLayer outputLayer=new SimpleOutputLayer();
+		outputLayer.setActualValue(new double[]{0.01,0.99});
+		
 		double outputvalues[]=ann.triggerInput(new double[] {0.05,0.1});
 		double actualValue[]=new double[]{0.01,0.99};
 		double error[]=new double[] {outputvalues[0]-0.01,outputvalues[1]-0.99};
-		ann.triggerBackward(error);
-		//ann.triggerBackward(outputvalues);
+		
+		outputLayer.forward(outputvalues);
+		double[] error2=outputLayer.errorDerivation();
+		
+		ann.triggerBackward(error2);
 		
 		
 	}

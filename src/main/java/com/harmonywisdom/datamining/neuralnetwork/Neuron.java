@@ -72,19 +72,19 @@ public class Neuron implements INeuron{
 		}
 		dbias=backwardinput*dz;
 		sumDBias+=dbias;
-//		System.out.print("==================偏差");
-//		for(int i=0;i<weights.length;i++) {
-//			
-//			double out=(weights[i]-0.5*dweights[i]);
-//			System.out.print(dweights[i]+"("+out+") ,");
-//			
-//		}
-//		System.out.println();
-//		
-//		for(int i=0;i<backwardValue.length;i++) {
-//			System.out.print(backwardValue[i]+" ");
-//		}
-//		System.out.println();
+		System.out.print("==================偏差");
+		for(int i=0;i<weights.length;i++) {
+			
+			double out=(weights[i]-0.5*dweights[i]);
+			System.out.print(dweights[i]+"("+out+") ,");
+			
+		}
+		System.out.println();
+		
+		for(int i=0;i<backwardValue.length;i++) {
+			System.out.print(backwardValue[i]+" ");
+		}
+		System.out.println();
 		
 		return backwardValue; 
 	}
@@ -130,6 +130,11 @@ public class Neuron implements INeuron{
 		value=f;
 		dz=activationFunction.derivation();//f*(1-f);
 		return value;
+	}
+
+	@Override
+	public int getInputSize() {
+		return this.weights.length;
 	}
 	
 

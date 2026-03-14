@@ -11,6 +11,8 @@ public class HiddenLayer implements NeuronNetworkLayer{
 	
 	int layerSeq;
 	
+	int pLayerNodes=-1;
+	
 	
 	public HiddenLayer() {
 		hiddenNeurons=new ArrayList<>();
@@ -105,21 +107,48 @@ public class HiddenLayer implements NeuronNetworkLayer{
 	}
 
 	@Override
-	public void initSimpleLayerWithWeights(int nCnt, double[][] weights, double[] bias) {
-		int size=weights.length;
-		if(size!=nCnt) {
-			System.out.println("入参数量错误");
-		}
-		for(int i=0;i<nCnt;i++) {
-			double weightsi[]=weights[i];
-			double biasi=bias[i];
-			INeuron n=new SimpleNeuron();
-			n.setWeights(weightsi);
-			n.setBias(biasi);
-			hiddenNeurons.add(n);
-		}
-		
+	public double[] getSumPartialDerivation() {
+		int pCnt=getPLayerNodesCnt();
+		double[] sumDerivation=new double[pCnt];
+		for(int j=0;j<getNeuronCnt();j++) {
+			INeuron pn=getNeuron(j);
+			double backwardinputArr[]=pn.getNeuronBackwardInput();
+			for(int i=0;i<backwardinputArr.length;i++) {
+				double backwardinput=backwardinputArr[i];
+				double sumInput=sumDerivation[i];
+				sumInput+=backwardinput;
+				sumDerivation[i]=sumInput;
+			}
+		}	
+		return sumDerivation;
 	}
+
+	@Override
+	public int getPLayerNodesCnt() {
+		if(pLayerNodes==-1) {
+			for(int i=0;i<getNeuronCnt();i++) {
+				INeuron pn=getNeuron(i);
+				if(pLayerNodes<pn.getInputSize()) {
+					pLayerNodes=pn.getInputSize();
+				}
+			}
+		}
+		return pLayerNodes;
+	}
+
+	@Override
+	public void backward(NeuronNetworkLayer backlayer) {
+		double sumChainedDerivation[]=backlayer
+				.getSumPartialDerivation();
+		int sizeCur=getNeuronCnt();
+		for(int i=0;i<sizeCur;i++) {
+			INeuron n=getNeuron(i);
+			double sumInput=sumChainedDerivation[i];
+			n.backward(sumInput);
+		}
+	}
+
+	
 	
 
 
