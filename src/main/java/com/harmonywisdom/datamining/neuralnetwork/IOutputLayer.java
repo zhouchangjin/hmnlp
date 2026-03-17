@@ -13,5 +13,7 @@ public interface IOutputLayer {
 	double[] errorRespective();
 	
 	double error();
+	
+	void resetTotalError();
 
 }

@@ -17,6 +17,10 @@ public class Neuron implements INeuron{
 	
 	double sumDBias;
 	
+	int layerNo;
+	
+	int neuronNo;
+	
 
 	//同一层的sigmod偏导的一部分
 	double dz;
@@ -72,19 +76,21 @@ public class Neuron implements INeuron{
 		}
 		dbias=backwardinput*dz;
 		sumDBias+=dbias;
-		System.out.print("==================偏差");
-		for(int i=0;i<weights.length;i++) {
-			
-			double out=(weights[i]-0.5*dweights[i]);
-			System.out.print(dweights[i]+"("+out+") ,");
-			
-		}
-		System.out.println();
 		
-		for(int i=0;i<backwardValue.length;i++) {
-			System.out.print(backwardValue[i]+" ");
-		}
-		System.out.println();
+		System.out.println("N_"+layerNo+"_"+neuronNo+":"+dbias);
+//		System.out.print("==================偏差");
+//		for(int i=0;i<weights.length;i++) {
+//			
+//			double out=(weights[i]-0.5*dweights[i]);
+//			System.out.print(dweights[i]+"("+out+") ,");
+//			
+//		}
+//		System.out.println();
+//		
+//		for(int i=0;i<backwardValue.length;i++) {
+//			System.out.print(backwardValue[i]+" ");
+//		}
+//		System.out.println();
 		
 		return backwardValue; 
 	}
@@ -135,6 +141,16 @@ public class Neuron implements INeuron{
 	@Override
 	public int getInputSize() {
 		return this.weights.length;
+	}
+
+	@Override
+	public void setLayerNo(int num) {
+		this.layerNo=num;
+	}
+
+	@Override
+	public void setNeuronNo(int num) {
+		this.neuronNo=num;
 	}
 	
 

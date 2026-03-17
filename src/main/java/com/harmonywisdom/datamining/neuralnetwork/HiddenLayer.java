@@ -13,9 +13,16 @@ public class HiddenLayer implements NeuronNetworkLayer{
 	
 	int pLayerNodes=-1;
 	
+	NeuronNetworkLayer previousLayer;
+	
 	
 	public HiddenLayer() {
 		hiddenNeurons=new ArrayList<>();
+	}
+	
+	public HiddenLayer(int seq) {
+		hiddenNeurons=new ArrayList<>();
+		this.layerSeq=seq;
 	}
 
 	@Override
@@ -35,7 +42,8 @@ public class HiddenLayer implements NeuronNetworkLayer{
 	public void initSize(int neuroCount) {
 		for(int i=0;i<neuroCount;i++) {
 			Neuron n=new Neuron();
-			hiddenNeurons.add(n);
+			//hiddenNeurons.add(n);
+			addNeuron(n);
 		}
 	}
 
@@ -59,7 +67,8 @@ public class HiddenLayer implements NeuronNetworkLayer{
 			Neuron n=new Neuron();
 			n.setWeights(weights);
 			n.setBias(bias);
-			hiddenNeurons.add(n);
+			addNeuron(n);
+			//hiddenNeurons.add(n);
 		}
 	}
 
@@ -100,7 +109,8 @@ public class HiddenLayer implements NeuronNetworkLayer{
 			INeuron n=new Neuron();
 			n.setWeights(weightsi);
 			n.setBias(biasi);
-			hiddenNeurons.add(n);
+			addNeuron(n);
+			//hiddenNeurons.add(n);
 		}
 		
 		
@@ -146,6 +156,29 @@ public class HiddenLayer implements NeuronNetworkLayer{
 			double sumInput=sumChainedDerivation[i];
 			n.backward(sumInput);
 		}
+	}
+
+
+
+	@Override
+	public void addNeuron(INeuron neuron) {
+		int layerNo=layerSeq;
+		int neuronNo=hiddenNeurons.size();
+		neuron.setLayerNo(layerNo);
+		neuron.setNeuronNo(neuronNo);
+		hiddenNeurons.add(neuron);
+	}
+
+	@Override
+	public void setPreviousLayer(NeuronNetworkLayer layer) {
+		
+		previousLayer=layer;
+	}
+
+	@Override
+	public NeuronNetworkLayer getPreviousLayer() {
+		// TODO Auto-generated method stub
+		return previousLayer;
 	}
 
 	

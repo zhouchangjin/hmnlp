@@ -27,7 +27,11 @@ public class NeuronNetwork {
 	}
 	
 	public void addHiddenLayer(NeuronNetworkLayer networkLayer) {
-		networkLayer.setLayerSeq(hiddenLayers.size());
+		if(hiddenLayers.size()==0) {
+			networkLayer.setPreviousLayer(null);
+		}else {
+			networkLayer.setPreviousLayer(getLastLayer());
+		}
 		hiddenLayers.add(networkLayer);
 	}
 	
@@ -74,6 +78,10 @@ public class NeuronNetwork {
 		
 	}
 	
+	public void setOutputLayer(IOutputLayer layer) {
+		this.outputLayer=layer;
+	}
+	
 	public IOutputLayer getOutputLayer() {
 		if(outputLayer==null) {
 			outputLayer=new SimpleOutputLayer();
@@ -86,12 +94,16 @@ public class NeuronNetwork {
 		double currentInput[]=input;
 		for(NeuronNetworkLayer hiddenLayer:hiddenLayers) {
 			currentInput=hiddenLayer.forward(currentInput);
-			for(int k=0;k<currentInput.length;k++) {
-				System.out.print(currentInput[k]+" , ");
-			}
-			System.out.println();
 		}
 		return currentInput;
+	}
+	
+	public void triggerBackward(int classIndex) {
+		outputLayer.setActualClass(classIndex);
+		//System.out.println("当前样本误差："+outputLayer.error());
+		double[] dev=outputLayer.errorDerivation();
+		triggerBackward(dev);
+
 	}
 	
 	
@@ -108,12 +120,10 @@ public class NeuronNetwork {
 			n.backward(outputvalues[i]);
 		}
 		NeuronNetworkLayer previousLayer=layer;
-		int previousSeq=previousLayer.getLayerSeq();
-		while(previousSeq>0) {
-			int curSeq=previousSeq-1;
-			NeuronNetworkLayer currentLayer=getLayer(curSeq);
+		//int previousSeq=previousLayer.getLayerSeq();
+		while(previousLayer.getPreviousLayer()!=null) {
+			NeuronNetworkLayer currentLayer=previousLayer.getPreviousLayer();
 			currentLayer.backward(previousLayer);
-			previousSeq=curSeq;
 			previousLayer=currentLayer;
 		}
 	}
@@ -161,7 +171,7 @@ public class NeuronNetwork {
 		double[] error2=outputLayer.errorDerivation();
 		
 		ann.triggerBackward(error2);
-		
+
 		
 	}
 

@@ -54,4 +54,10 @@ public class SimpleOutputLayer implements IOutputLayer{
 		//用不到
 	}
 
+	@Override
+	public void resetTotalError() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

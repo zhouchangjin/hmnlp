@@ -11,6 +11,10 @@ public class SimpleLayer extends HiddenLayer implements NeuronNetworkLayer{
 	public SimpleLayer() {
 		hiddenNeurons=new ArrayList<>();
 	}
+	
+	public SimpleLayer(int seq) {
+		super(seq);
+	}
 
 	
 
@@ -26,7 +30,7 @@ public class SimpleLayer extends HiddenLayer implements NeuronNetworkLayer{
 			INeuron n=new SimpleNeuron();
 			n.setWeights(weightsi);
 			n.setBias(biasi);
-			hiddenNeurons.add(n);
+			addNeuron(n);
 		}
 		
 	}

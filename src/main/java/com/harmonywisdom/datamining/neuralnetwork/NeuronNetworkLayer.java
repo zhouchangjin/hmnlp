@@ -2,6 +2,10 @@ package com.harmonywisdom.datamining.neuralnetwork;
 
 public interface NeuronNetworkLayer {
 	
+	void setPreviousLayer(NeuronNetworkLayer layer);
+	
+	NeuronNetworkLayer getPreviousLayer();
+	
 	void setLayerSeq(int layerSeq);
 	
 	int getLayerSeq();
@@ -27,5 +31,9 @@ public interface NeuronNetworkLayer {
 	int getNeuronCnt();
 	
 	int getPLayerNodesCnt();
+	
+	//void logPrintSumBackwardInput();
+	
+	void addNeuron(INeuron neuron);
 	
 }

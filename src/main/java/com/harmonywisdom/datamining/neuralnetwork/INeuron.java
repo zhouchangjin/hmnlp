@@ -2,6 +2,10 @@ package com.harmonywisdom.datamining.neuralnetwork;
 
 public interface INeuron {
 	
+	void setLayerNo(int num);
+	
+	void setNeuronNo(int num);
+	
 	int getInputSize();
 	
 	double[] backward(double backwardinput);
@@ -15,5 +19,6 @@ public interface INeuron {
 	double[] getNeuronBackwardInput();
 	
 	void setBias(double bias);
+	
 
 }
